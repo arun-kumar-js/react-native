@@ -1,131 +1,173 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import {useState} from 'react';
 import {
-  ScrollView,
-  StatusBar,
-  StyleSheet,
+  SafeAreaView,
   Text,
-  useColorScheme,
+  TextInput,
+  Button,
   View,
+  Image,
+  ScrollView,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
+interface ChatItemProps {
+  name: string;
+  message: string;
+  time: string;
+  image: any; 
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const ChatItem = ({name, message, time, image}: ChatItemProps) => (
+  <View style={{flexDirection: 'row'}}>
+    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <View>
+        <Image
+          source={image} 
+          style={{width: 60, height: 60, borderRadius: 30, margin: 10}}
+        />
+      </View>
+      <View>
+        <Text style={{fontSize: 19, fontWeight: 'bold', paddingLeft: 10}}>
+          {name}
+        </Text>
+        <Text style={{fontSize: 15, padding: 10}}>{message}</Text>
+      </View>
+    </View>
+    <View style={{position: 'absolute', right: 20, top: 20}}>
+      <Text>{time}</Text>
+    </View>
+  </View>
+);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  /*
-   * To keep the template simple and small we're adding padding to prevent view
-   * from rendering under the System UI.
-   * For bigger apps the recommendation is to use `react-native-safe-area-context`:
-   * https://github.com/AppAndFlow/react-native-safe-area-context
-   *
-   * You can read more about it here:
-   * https://github.com/react-native-community/discussions-and-proposals/discussions/827
-   */
-  const safePadding = '5%';
+const Whatsapp = () => {
+  const [search, setSearch] = useState('');
+  const chats = [
+    {
+      name: 'React Native class',
+      message: 'sakthi:hai guys just try this',
+      time: '10:00',
+      image: require('./assets/r.png'),
+    },
+    {
+      name: 'Arun',
+      message: 'Arun: No plan today',
+      time: '09:53',
+      image: require('./assets/a.png'),
+    },
+    {
+      name: 'kumar',
+      message: 'kumar:what doing',
+      time: '08:23',
+      image: require('./assets/k.png'),
+    },
+    {
+      name: 'Ramesh',
+      message: 'Me:have any plan',
+      time: '08:10',
+      image: require('./assets/r.png'),
+    },
+    {
+      name: 'suresh',
+      message: 'me:take rest ',
+      time: '08:00',
+      image: require('./assets/s.png'),
+    },
+    {
+      name: 'sankar',
+      message: 'me:suresh today leave',
+      time: '07:53',
+      image: require('./assets/s.png'),
+    },
+    {
+      name: 'jegan',
+      message: 'sakthi:hai guys just try this',
+      time: '07:50',
+      image: require('./assets/j.png'),
+    },
+    {
+      name: 'ganesh',
+      message: 'Ganesh:tomorow any plan',
+      time: '07:45',
+      image: require('./assets/g.png'),
+    },
+    {
+      name: 'Friend for ever',
+      message: 'ram:good morning',
+      time: '06:53',
+      image: require('./assets/f.png'),
+    },
+    {
+      name: 'Trip for goa',
+      message: 'planer: we never gos to goa',
+      time: '10:53',
+      image: require('./assets/t.png'),
+    },
+    {
+      name: 'school mates',
+      message: 'Yaro:No message from your side',
+      time: '10:53',
+      image: require('./assets/s.png'),
+    },
+    {
+      name: 'Ram',
+      message: 'ram:hai guys ',
+      time: '10:53',
+      image: require('./assets/r.png'),
+    },
+    {
+      name: 'narayanan',
+      message: 'me: gn',
+      time: '10:53 pm',
+      image: require('./assets/n.png'),
+    },
+   
+  ];
+  const filteredChats = chats.filter(
+    chat =>
+      chat.name.toLowerCase().includes(search.toLowerCase()) ||
+      chat.message.toLowerCase().includes(search.toLowerCase()),
+  );
 
   return (
-    <View style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        style={backgroundStyle}>
-        <View style={{paddingRight: safePadding}}>
-          <Header/>
-        </View>
-        <View
+    <>
+      <SafeAreaView>
+        <Text
           style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            paddingHorizontal: safePadding,
-            paddingBottom: safePadding,
+            color: 'green',
+            fontSize: 24,
+            fontWeight: 'bold',
+            paddingLeft: 10,
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </View>
+          Whatsapp
+        </Text>
+      </SafeAreaView>
+
+      <View>
+        <TextInput
+          placeholder="Ask Meta AI for or Search"
+          onChangeText={text => setSearch(text)}
+          style={{
+            height: 40,
+            borderColor: 'gray',
+            borderWidth: 1,
+            borderRadius: 15,
+            paddingHorizontal: 10,
+            margin: 10,
+          }}
+        />
+        <ScrollView style={{marginBottom: 100}}>
+          {filteredChats.map((chat, index) => (
+            <ChatItem
+              key={index}
+              name={chat.name}
+              message={chat.message}
+              time={chat.time}
+              image={chat.image}
+            />
+          ))}
+        </ScrollView>
+      </View>
+    </>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
+export default Whatsapp;
